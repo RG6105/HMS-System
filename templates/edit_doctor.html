@@ -1,0 +1,47 @@
+{% extends "base_dashboard.html" %}
+{% block sidebar %}
+<li><a href="/admin/dashboard"  data-panel-id="home-view">Dashboard Home</a></li>
+<li><a href="/admin/doctors" class="active" data-panel-id="doctors-view">Doctors</a></li>
+<li><a href="/admin/patients" data-panel-id="patients-view">Patients</a></li>
+<li><a href="/admin/appointments" data-panel-id="appointments-view">Appointments</a></li>
+{% endblock %}
+{% block main_content %}
+<div class="login-box">
+    <h2>👨‍⚕️ Edit Dr. {{ doctor.doctor_name }}'s profile</h2>
+    <form action="{{ url_for('edit_doctor', username=doctor.username) }}" method="POST">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" value="{{ doctor.username }}">
+        <label for="new_password">New Password:</label>
+        <input type="password" id="new_password" name="new_password">
+        <label for="confirm_password">Confirm Password:</label>
+        <input type="password" id="Confirm_password" name="Confirm_password">
+        <label for="doctor_name">Doctor Name:</label>
+        <input type="text" id="doctor_name" name="doctor_name" value="{{ doctor.doctor_name }}">
+        <label for="department">Department:</label>
+        <select id="department" name="department">
+            <option value="{{ doctor.department }}">{{ doctor.department }}</option>
+            <option value="Cardiology">Cardiology</option>
+            <option value="Neurology">Neurology</option>
+            <option value="Pediatrics">Pediatrics</option>
+            <option value="Orthopedics">Orthopedics</option>
+            <option value="General Surgery">General Surgery</option>
+            <option value="Child Specialist">Child Specialist</option>
+            </select>
+        <label for="experience">Experience:</label>
+        <input type="number" id="experience" name="experience" value="{{ doctor.experience }}">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <ul class="flashes">
+                {% for category, message in messages %}
+                    <li class="alert-{{ category }}">
+                        {{ message }}
+                    </li>
+                {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+        <button type="submit">Update</button>
+    </form>
+    <a href="/admin/doctors" class="back-link">← Back to Home</a>
+</div>
+{% endblock %}

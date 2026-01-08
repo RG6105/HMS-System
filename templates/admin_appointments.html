@@ -1,0 +1,49 @@
+{% extends "base_dashboard.html" %}
+{% block sidebar %}
+<li><a href="/admin/dashboard">Dashboard Home</a></li>
+<li><a href="/admin/doctors" >Doctors</a></li>
+<li><a href="/admin/patients" >Patients</a></li>
+<li><a href="/admin/appointments" class="active">Appointments</a></li>
+{% endblock %}
+{% block main_content %}
+<div id="doctors-view" class="dynamic-content">
+    <h2>Upcoming Appointments</h2>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <ul class="flashes">
+            {% for category, message in messages %}
+                <li class="alert-{{ category }}">
+                    {{ message }}
+                </li>
+            {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th>S.NO.</th>
+                <th>Patient Name</th>
+                <th>Doctor Name</th>
+                <th>Department</th>
+                <th>Patient's Contact</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for appointment in appointment_list %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td>{{ appointment.patient_name }}</td>
+                <td>Dr. {{ appointment.doctor_name }}</td>
+                <td>{{ appointment.department }}</td>
+                <td>{{ appointment.contact_number }}</td>
+                <td>
+                    <a href="{{ url_for('admin_patient_history', patient_name=appointment.patient_name, doctor_name=appointment.doctor_name) }}" class="view-button">view</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

@@ -1,0 +1,32 @@
+{% extends "base_patient_dashboard.html" %}
+{% block sidebar %}
+<li><a href="{{ url_for('patient_dashboard', patient_name=patient_name) }}" class="active" >Dashboard Home</a></li>
+{% endblock %}
+{% block main_content %}
+<div class="doctor-details">
+    <div style="display: flex; align-items: flex-start; justify-content: space-between;">
+        <div>
+            <h2>Dr. {{doctor.doctor_name}}</h2>
+            <p>MBBS</p>
+            <p>{{doctor.department}}</p>
+            <p>{{doctor.experience}} Years Experience Overall</p>
+        </div>
+        <div style="width: 100px; height: 100px; background-color: #ccc; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-left: 20px;">
+            <svg style="width: 60px; height: 60px; fill: #666;" viewBox="0 0 24 24">
+                <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+            </svg>
+        </div>
+    </div>
+    
+    <hr style="margin-top: 20px; border: 0; border-top: 1px solid #eee;">
+
+    <p>
+        Dr. {{doctor.doctor_name}} is a {{doctor.department}} in India and has an experience of {{doctor.experience}} years in this field.
+    </p>
+
+    <div class="button-container">
+        <a href="{{ url_for('check_availability', username=doctor.username, patient_name=patient_name) }}" class="view-button">check availability</a>
+        <a href="{{ url_for('patient_dashboard', patient_name=patient_name) }}" class="view-button">Back</a>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>HealthLink - Patient Login</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    </head>
+    <body>
+        <nav class="navbar">
+            <div class="nav-content">
+                <div class="logo">
+                    <h2>⚕️HealthLink</h2>
+                </div>
+                <div class="nav-menu">
+                    <a href="/patient_login" class="nav-link">Patient</a>
+                    <a href="/doctor_login" class="nav-link">Doctor</a>
+                    <a href="/admin_login" class="nav-link admin" >Admin</a> 
+                </div>
+            </div>
+        </nav>
+        <main class="login-container">
+            <div class="login-box">
+                <h2>👤 Patient Login</h2>
+                <form action="/patient_login" method="POST">
+                    <label for="username">Username:</label>
+                    <input type="text" id="username" name="username" required>
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" name="password" required>
+                    {% with messages = get_flashed_messages(with_categories=true) %}
+                        {% if messages %}
+                            <ul class="flashes">
+                            {% for category, message in messages %}
+                                <li class="alert-{{ category }}">
+                                    {{ message }}
+                                </li>
+                            {% endfor %}
+                            </ul>
+                        {% endif %}
+                    {% endwith %}
+                    <button type="submit">Secure Login</button>
+                </form>
+                <a href="/" class="back-link">← Back to Home</a>
+                <a href="/patient_register" class="back-link">New Patient? Register now</a>
+            </div>
+        </main>
+    </body>
+</html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>HealthLink - Patient Register</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    </head>
+    <body>
+        <nav class="navbar">
+            <div class="nav-content">
+                <div class="logo">
+                    <h2>⚕️HealthLink</h2>
+                </div>
+                <div class="nav-menu">
+                    <a href="/patient_login" class="nav-link">Patient</a>
+                    <a href="/doctor_login" class="nav-link">Doctor</a>
+                    <a href="/admin_login" class="nav-link admin" style="color: white; border-bottom: 2px solid #a0ffa0;">Admin</a> 
+                </div>
+            </div>
+        </nav>
+        <main class="login-container">
+            <div class="login-box">
+                <h2>👤 Register</h2>
+                <form action="/patient_register" method="POST">
+                    <label for="username">Username:</label>
+                    <input type="text" id="username" name="username" required>
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" name="password" required>
+                    <label for="confirm_password">Confirm Password:</label>
+                    <input type="password" id="confirm_password" name="confirm_password" required>
+                    <label for="full_name">Patient Name:</label>
+                    <input type="text" id="full_name" name="full_name" required>
+                    <label for="doctor_name">Doctor Name:</label>
+                    <input type="text" id="doctor_name" name="doctor_name" required>
+                    <label for="contact_number">Contact Number:</label>
+                    <input type="text" id="contact_number" name="contact_number" required>
+                    {% with messages = get_flashed_messages(with_categories=true) %}
+                        {% if messages %}
+                            <ul class="flashes">
+                            {% for category, message in messages %}
+                                <li class="alert-{{ category }}">
+                                    {{ message }}
+                                </li>
+                            {% endfor %}
+                            </ul>
+                        {% endif %}
+                    {% endwith %}
+                    <button type="submit">Register</button>
+                </form>
+                <a href="/" class="back-link">← Back to Home</a>
+                <a href="/patient_login" class="back-link">Existing User? Login now</a>
+            </div>
+        </main>
+    </body>
+</html>

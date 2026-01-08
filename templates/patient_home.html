@@ -1,0 +1,57 @@
+{% extends "base_patient_dashboard.html" %}
+{% block sidebar %}
+<li><a href="{{ url_for('patient_dashboard', patient_name=patient_name) }}" class="active" >Dashboard Home</a></li>
+{% endblock %}
+{% block main_content %}
+<h1 class="dashboard-title">Welcome {{patient_name}}</h1>
+{% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        <ul class="flashes">
+        {% for category, message in messages %}
+            <li class="alert-{{ category }}">
+                {{ message }}
+            </li>
+        {% endfor %}
+        </ul>
+    {% endif %}
+{% endwith %}
+<div id="home-view" class="dynamic-content">
+    <h2>Your Doctor</h2>
+    <div id="patient-list">
+        <div class="patient-entry">
+            <span class="patient-name">
+                {{doctor.doctor_name}}
+            </span>
+            <div class="button-group">
+                <a href="{{ url_for('check_availability', username=doctor.username, patient_name=patient_name) }}" class="view-button">check availability</a>
+                <a href="{{ url_for('view_details', username=doctor.username, patient_name=patient_name) }}" class="view-button">view details</a>
+            </div>
+        </div>
+        <h2>Upcoming Appointments</h2>
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>S.NO.</th>
+                    <th>Doctor Name</th>
+                    <th>Department</th>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for appointment in appointment_list %}
+                <tr>
+                    <td>{{ appointment.id }}</td>
+                    <td>{{ appointment.doctor_name }}</td>
+                    <td>{{ appointment.department }}</td>
+                    <td>{{ appointment.date }}</td>
+                    <td>{{ appointment.time }}</td>
+                    <td><a href="{{ url_for('cancel', patient_name=patient_name, appointment_id=appointment.id) }}" class="delete-btn" >cancel</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

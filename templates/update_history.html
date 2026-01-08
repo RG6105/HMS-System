@@ -1,0 +1,37 @@
+{% extends "base_doctor_dashboard.html" %}
+{% block sidebar %}
+<li><a href="{{ url_for('doctor_dashboard', doctor_name=doctor.doctor_name) }}"  >Dashboard Home</a></li>
+<li><a href="{{ url_for('doctor_patients', doctor_name=doctor.doctor_name) }}"  >patients</a></li>
+<li><a href="{{ url_for('doctor_appointments', doctor_name=doctor.doctor_name) }}" class="active" >Appointments</a></li>
+{% endblock %}
+{% block main_content %}
+<div id="doctors-view" class="dynamic-content">
+    <h2>Update Patient History</h2>
+    <p><b>Patient Name</b>: {{patient.patient_name}}</p>
+    <p><b>Department</b>: {{doctor.department}}</p>
+</div>
+<div class="login-box">
+    <form action="{{ url_for('update_history', patient_name=patient.patient_name, appointment_id=appointments.id, doctor_name=doctor.doctor_name) }}" method="POST">
+        <label for="tests">Tests Done</label>
+        <input type="text" id="tests" name="tests">
+        <label for="diagnosis">Diagnosis</label>
+        <input type="text" id="diagnosis" name="diagnosis">
+        <label for="prescription">Prescription</label>
+        <input type="text" id="prescription" name="prescription">
+        <label for="medicine">Medicines</label>
+        <input type="text" id="medicine" name="medicine">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <ul class="flashes">
+                {% for category, message in messages %}
+                    <li class="alert-{{ category }}">
+                        {{ message }}
+                    </li>
+                {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+        <button type="submit">Update</button>
+    </form>
+</div>
+{% endblock %}

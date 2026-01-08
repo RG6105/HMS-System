@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>HealthLink - HMS</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    </head>
+    <body>
+        <nav class="navbar">
+            <div class="nav-content">
+                <div class="logo">
+                    <h2>⚕️HealthLink</h2>
+                </div>
+                <div class="nav-menu">
+                    <a href="/patient_login" class="nav-link">Patient</a>
+                    <a href="/doctor_login" class="nav-link">Doctor</a>
+                    <a href="/admin_login" class="nav-link admin">Admin</a>
+                </div>
+            </div>
+        </nav>
+        <main class="welcome-section">
+            <blockquote class="quote">
+                "The patient's well-being is our greatest commitment."
+            </blockquote>
+
+            <div class="user-cards-container">
+                <div class="user-card patient">
+                    <h3>Patient Portal</h3>
+                    <p>View appointments, medical records, test results, and manage your profile securely.</p>
+                    <a href="/patient_login">Login as Patient</a>
+                </div>
+                <div class="user-card doctor">
+                    <h3>Doctor & Staff Login</h3>
+                    <p>Access patient charts, manage schedules, order tests, and handle administrative duties.</p>
+                    <a href="/doctor_login">Login as Doctor</a>
+                </div>
+                <div class="user-card admin">
+                    <h3>System Administration</h3>
+                    <p>Oversee system configuration, reporting, user management, and maintenance logs.</p>
+                    <a href="/admin_login">Login as Admin</a>
+                </div>
+            </div>
+        </main>
+    </body>
+</html>

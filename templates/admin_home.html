@@ -1,0 +1,42 @@
+{% extends "base_dashboard.html" %}
+{% block sidebar %}
+<li><a href="/admin/dashboard" class="active" >Dashboard Home</a></li>
+<li><a href="/admin/doctors" >Doctors</a></li>
+<li><a href="/admin/patients" >Patients</a></li>
+<li><a href="/admin/appointments" >Appointments</a></li>
+{% endblock %}
+{% block main_content %}
+<h1 class="dashboard-title">Welcome Admin</h1>
+<div id="home-view" class="dynamic-content">
+    <h2>System Overview</h2>
+    <div class="summary-cards-container">
+        <div class="summary-card doctors">
+            <h4>Total Registered Doctors</h4>
+            <div class="count" id="total-doctors">{{ summary.total_doctors }}</div> 
+        </div>
+        <div class="summary-card patients">
+            <h4>Total Active Patients</h4>
+            <div class="count" id="total-patients">{{ summary.total_patients }}</div>
+        </div>
+        <div class="summary-card appointments">
+            <h4>Upcoming Appointments Today</h4>
+            <div class="count" id="upcoming-appointments">{{ summary.upcoming_appointments }}</div>
+        </div>
+    </div>
+    <h2>Core Functionalities</h2>
+    <div class="functionality-cards-container">
+        <div class="function-card">
+            <h4>Manage Doctors</h4>
+            <p>Add, edit, or delete doctor profiles and manage their schedules.</p>
+        </div>
+        <div class="function-card">
+            <h4>Manage Patients</h4>
+            <p>Review patient records, update patient details, and manage registrations.</p>
+        </div>
+        <div class="function-card">
+            <h4>Manage Appointments</h4>
+            <p>View, schedule, and update patient appointment details.</p>
+        </div>
+    </div>
+</div>
+{% endblock %}

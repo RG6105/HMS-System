@@ -1,0 +1,145 @@
+{% extends "base_patient_dashboard.html" %}
+{% block sidebar %}
+<li><a href="{{ url_for('patient_dashboard', patient_name=patient_name) }}" class="active" >Dashboard Home</a></li>
+{% endblock %}
+{% block main_content %}
+{% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        <ul class="flashes">
+        {% for category, message in messages %}
+            <li class="alert-{{ category }}">
+                {{ message }}
+            </li>
+        {% endfor %}
+        </ul>
+    {% endif %}
+{% endwith %}
+<style>
+    .slot-label {
+        display: block;
+        padding: 10px;
+        margin: 5px;
+        border-radius: 8px;
+        transition: all 0.2s ease-in-out;
+        cursor: pointer;
+        font-weight: 500;
+        text-align: center;
+        max-width: 200px;
+        margin-left: auto;
+        margin-right: auto;
+        user-select: none; 
+    }
+
+    .slot-available {
+        background-color: #d1e7dd; 
+        color: #0f5132; 
+        border: 1px solid #0f5132;
+    }
+
+    .slot-booked {
+        background-color: #f8d7da; 
+        color: #842029; 
+        border: 1px solid #842029;
+        opacity: 0.6;
+        cursor: not-allowed;
+    }
+
+    .time-radio {
+        display: none;
+    }
+    .time-radio:checked + .slot-label {
+        background-color: #198754; 
+        color: white;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        border: 1px solid #198754;
+        transform: translateY(-2px);
+    }
+    .slot-booked {
+        pointer-events: none; 
+    }
+</style>
+
+<div class="container py-5">
+    <div class="availability-card p-4 p-md-5">
+        <h2 class="mb-4 text-center text-primary">Doctor's Availability</h2>
+        <p class="text-muted text-center mb-5">Select a available slot (Green) to book your appointment. Booked slots (Red) cannot be selected.</p>
+
+        <form method="POST" action="{{ url_for('check_availability', username=username, patient_name=patient_name) }}" id="bookingForm">
+
+            <div class="table-responsive">
+                <table class="table table-borderless-custom text-center align-middle">
+                    
+                    <thead class="fw-bold text-secondary border-bottom pb-2">
+                        <tr>
+                            <th scope="col" class="text-start">Date</th>
+                            <th scope="col">Morning (09:00 - 1:00 pm)</th>
+                            <th scope="col">Evening (04:00 - 8:00 pm)</th>
+                        </tr>
+                    </thead>
+                    
+                    <tbody>
+                        {% for day in availability_list %}
+                        <tr class="mb-3">
+                            
+                            <td class="text-start py-3">
+                                <div class="fw-semibold text-dark">{{ day.display_date }}</div>
+                            </td>
+                            
+                            <!-- MORNING SLOT -->
+                            <td>
+                                {% if day.morning_available %}
+                                    <input type="radio" 
+                                           id="slot_{{ day.date }}_M" 
+                                           name="selected_slot" 
+                                           value="{{ day.date }}_M" 
+                                           class="time-radio">
+                                    <label class="slot-label slot-available" for="slot_{{ day.date }}_M">
+                                        <i class="bi bi-sun-fill me-1"></i> Morning
+                                    </label>
+                                {% else %}
+                                    <!-- Booked Slot: Red, Disabled -->
+                                    <div class="slot-label slot-booked">
+                                        <i class="bi bi-x-circle-fill me-1"></i> Booked
+                                    </div>
+                                {% endif %}
+                            </td>
+                            
+                            <!-- EVENING SLOT -->
+                            <td>
+                                {% if day.evening_available %}
+                                    <input type="radio" 
+                                           id="slot_{{ day.date }}_E" 
+                                           name="selected_slot" 
+                                           value="{{ day.date }}_E" 
+                                           class="time-radio">
+                                    <label class="slot-label slot-available" for="slot_{{ day.date }}_E">
+                                        <i class="bi bi-moon-fill me-1"></i> Evening
+                                    </label>
+                                {% else %}
+                                    <!-- Booked Slot: Red, Disabled -->
+                                    <div class="slot-label slot-booked">
+                                        <i class="bi bi-x-circle-fill me-1"></i> Booked
+                                    </div>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="row mt-5">
+                <div class="col-12 text-center text-md-end">
+                    <button 
+                        type="submit" 
+                        class="book-button"
+                    >   Confirm Booking
+                    </button>
+                    <a href="{{ url_for('patient_dashboard', patient_name=patient_name) }}" class="back-button">Back</a>
+                </div>
+            </div>
+
+        </form>
+    </div>
+</div>
+{% endblock %}

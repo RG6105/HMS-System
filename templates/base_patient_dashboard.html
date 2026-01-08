@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>HealthLink - Patient Login</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    </head>
+    <body>
+        <nav class="navbar">
+            <div class="nav-content">
+                <div class="logo">
+                    <h2>⚕️HealthLink</h2>
+                </div>
+                <div class="nav-menu">
+                    <a href="{{ url_for('edit_profile', patient_name=patient_name) }}" class="nav-link">Edit Profile</a>
+                    <a href="{{ url_for('patient_history', patient_name=patient_name) }}" class="nav-link">History</a>
+                    <a href="/" class="nav-link">Logout</a>
+                </div>
+            </div>
+        </nav>
+        <div class="dashboard_layout">
+            <aside class="sidebar">
+                <h3>Patient Menu</h3>
+                <ul class="sidebar-nav">
+                    {% block sidebar %}
+                    {% endblock %}
+                </ul>
+            </aside>
+            <main class="main-content">
+                {% block main_content %}
+                {% endblock %}
+            </main>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,48 @@
+{% extends "base_doctor_dashboard.html" %}
+{% block sidebar %}
+<li><a href="{{ url_for('doctor_dashboard', doctor_name=doctor_name) }}"  >Dashboard Home</a></li>
+<li><a href="{{ url_for('doctor_patients', doctor_name=doctor_name) }}" class="active" >patients</a></li>
+<li><a href="{{ url_for('doctor_appointments', doctor_name=doctor_name) }}" >Appointments</a></li>
+{% endblock %}
+{% block main_content %}
+<div id="doctors-view" class="dynamic-content">
+    <a href="{{ url_for('doctor_patients', doctor_name=doctor_name) }}" class="back-button2">Back</a>
+    <h1>Patient History</h1>
+    <p><b>Patient Name</b>: {{patient_name}}</p>
+    <p><b>Doctor Name</b>: {{doctor_name}}</p>
+    <p><b>Department</b>: {{department}}</p>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <ul class="flashes">
+            {% for category, message in messages %}
+                <li class="alert-{{ category }}">
+                    {{ message }}
+                </li>
+            {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th>Visit No.</th>
+                <th>Tests Done</th>
+                <th>Diagnosis</th>
+                <th>Prescription</th>
+                <th>Medicines</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for patient in treatment_list %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td>{{ patient.tests }}</td>
+                <td>{{ patient.Diagnosis }}</td>
+                <td>{{ patient.Prescription }}</td>
+                <td>{{ patient.Medicines }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

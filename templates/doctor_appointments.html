@@ -1,0 +1,47 @@
+{% extends "base_doctor_dashboard.html" %}
+{% block sidebar %}
+<li><a href="{{ url_for('doctor_dashboard', doctor_name=doctor_name) }}"  >Dashboard Home</a></li>
+<li><a href="{{ url_for('doctor_patients', doctor_name=doctor_name) }}"  >patients</a></li>
+<li><a href="{{ url_for('doctor_appointments', doctor_name=doctor_name) }}" class="active" >Appointments</a></li>
+{% endblock %}
+{% block main_content %}
+<div id="doctors-view" class="dynamic-content">
+    <h2>Upcoming Appointments</h2>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <ul class="flashes">
+            {% for category, message in messages %}
+                <li class="alert-{{ category }}">
+                    {{ message }}
+                </li>
+            {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th>S.NO.</th>
+                <th>Patient Name</th>
+                <th>Patient History</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for appointment in appointment_list %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td>{{ appointment.patient_name }}</td>
+                <td>
+                    <a href="{{ url_for('update_history', patient_name=appointment.patient_name, appointment_id=appointment.id, doctor_name=doctor_name) }}" class="view-button">Update</a>
+                </td>
+                <td>
+                    <a href="{{ url_for('mark_as_completed', appointment_id=appointment.id, doctor_name=doctor_name) }}" class="mark-btn">mark as completed</a>
+                    <a href="{{ url_for('cancel_appointment', appointment_id=appointment.id, doctor_name=doctor_name) }}" class="delete-btn">cancel</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

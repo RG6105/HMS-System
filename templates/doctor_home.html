@@ -1,0 +1,45 @@
+{% extends "base_doctor_dashboard.html" %}
+{% block sidebar %}
+<li><a href="{{ url_for('doctor_dashboard', doctor_name=doctor_name) }}" class="active" >Dashboard Home</a></li>
+<li><a href="{{ url_for('doctor_patients', doctor_name=doctor_name) }}" >patients</a></li>
+<li><a href="{{ url_for('doctor_appointments', doctor_name=doctor_name) }}" >Appointments</a></li>
+{% endblock %}
+{% block main_content %}
+<h1 class="dashboard-title">Welcome Dr. {{doctor_name}}</h1>
+<a href="{{ url_for('doctor_availability', doctor_name=doctor_name) }}" class="avail-btn" >Provide Availability</a>
+{% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        <ul class="flashes">
+        {% for category, message in messages %}
+            <li class="alert-{{ category }}">
+                {{ message }}
+            </li>
+        {% endfor %}
+        </ul>
+    {% endif %}
+{% endwith %}
+<div id="home-view" class="dynamic-content">
+    <h2>System Overview</h2>
+    <div class="summary-cards-container">
+        <div class="summary-card patients">
+            <h4>Total Assigned Patients</h4>
+            <div class="count" id="total-patients">{{ summary.total_patients }}</div>
+        </div>
+        <div class="summary-card appointments">
+            <h4>Upcoming Appointments Today</h4>
+            <div class="count" id="upcoming-appointments">{{ summary.upcoming_appointments }}</div>
+        </div>
+    </div>
+    <h2>Core Functionalities</h2>
+    <div class="functionality-cards-container">
+        <div class="function-card">
+            <h4>Manage Patients</h4>
+            <p>View patient History</p>
+        </div>
+        <div class="function-card">
+            <h4>Manage Appointments</h4>
+            <p>View Ongoing treatment, Update patient history</p>
+        </div>
+    </div>
+</div>
+{% endblock %}

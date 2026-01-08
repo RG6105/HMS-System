@@ -1,0 +1,21 @@
+{% extends "base_doctor_dashboard.html" %}
+{% block sidebar %}
+<li><a href="{{ url_for('doctor_dashboard', doctor_name=doctor_name) }}"  >Dashboard Home</a></li>
+<li><a href="{{ url_for('doctor_patients', doctor_name=doctor_name) }}" class="active" >patients</a></li>
+<li><a href="{{ url_for('doctor_appointments', doctor_name=doctor_name) }}" >Appointments</a></li>
+{% endblock %}
+{% block main_content %}
+<div id="doctors-view" class="dynamic-content">
+    <h2>Assigned Patients</h2>
+    <div id="patient-list">
+        {% for patient in patient_list %}
+            <div class="patient-entry">
+                <span class="patient-name">
+                    {{patient.patient_name}}
+                </span>
+                <a href="{{ url_for('view_patient', doctor_name=patient.doctor_name, patient_name=patient.patient_name) }}" class="view-button">view</a>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

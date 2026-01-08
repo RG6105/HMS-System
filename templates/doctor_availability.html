@@ -1,0 +1,95 @@
+{% extends "base_doctor_dashboard.html" %}
+{% block sidebar %}
+<li><a href="{{ url_for('doctor_dashboard', doctor_name=doctor_name) }}" class="active" >Dashboard Home</a></li>
+<li><a href="{{ url_for('doctor_patients', doctor_name=doctor_name) }}" >patients</a></li>
+<li><a href="{{ url_for('doctor_appointments', doctor_name=doctor_name) }}" >Appointments</a></li>
+{% endblock %}
+{% block main_content %}
+{% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        <ul class="flashes">
+        {% for category, message in messages %}
+            <li class="alert-{{ category }}">
+                {{ message }}
+            </li>
+        {% endfor %}
+        </ul>
+    {% endif %}
+{% endwith %}
+<div class="container py-5">
+    <div class="availability-card p-4 p-md-5">
+        <h2 class="mb-4 text-center text-primary">Doctor's Availability Setup</h2>
+        <p class="text-muted text-center mb-5">Click on a time slot to toggle your availability (Green = Available, Red = Unavailable).</p>
+
+        <form method="POST" action="{{ url_for('doctor_availability', doctor_name=doctor_name) }}">
+
+            <div class="table-responsive">
+                <table class="table table-borderless-custom text-center align-middle">
+                    
+                    <thead class="fw-bold text-secondary border-bottom pb-2">
+                        <tr>
+                            <th scope="col" class="text-start">Date</th>
+                            <th scope="col">09:00 - 1:00 pm</th>
+                            <th scope="col">04:00 - 8:00 pm</th>
+                        </tr>
+                    </thead>
+                    
+                    <tbody>
+                        {% for day in availability_list %}
+                        <tr class="mb-3">
+                            
+                            <td class="text-start py-3">
+                                <div class="fw-semibold text-dark">{{ day.day_name }}</div>
+                                <small class="text-muted">{{ day.display_date }}</small>
+                            </td>
+                            
+                            <td>
+                                <label class="d-block" for="morning_{{ day.date }}">
+                                    <input type="checkbox" 
+                                           id="morning_{{ day.date }}" 
+                                           name="morning_{{ day.date }}" 
+                                           value="on" 
+                                           class="time-checkbox" 
+                                           {% if day.morning_available %}checked{% endif %}>
+                                    
+                                    <div class="slot-box shadow-sm mx-auto" style="max-width: 200px;">
+                                        <i class="bi bi-sun-fill me-1"></i> Morning Slot
+                                    </div>
+                                </label>
+                            </td>
+                            
+                            <td>
+                                <label class="d-block" for="evening_{{ day.date }}">
+                                    <input type="checkbox" 
+                                           id="evening_{{ day.date }}" 
+                                           name="evening_{{ day.date }}" 
+                                           value="on" 
+                                           class="time-checkbox" 
+                                           {% if day.evening_available %}checked{% endif %}>
+                                    
+                                    <div class="slot-box shadow-sm mx-auto" style="max-width: 200px;">
+                                        <i class="bi bi-moon-fill me-1"></i> Evening Slot
+                                    </div>
+                                </label>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="row mt-5">
+                <div class="col-12 text-center text-md-end">
+                    <button 
+                        type="submit" 
+                        class="btn btn-lg btn-save-custom shadow-sm px-5"
+                    >
+                        <i class="bi bi-save me-2"></i> Save Availability
+                    </button>
+                </div>
+            </div>
+
+        </form>
+    </div>
+</div>
+{% endblock %}
